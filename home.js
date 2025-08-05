@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const socket = io("http://localhost:3001");
+    const socket = io("https://haven-chat-backend.onrender.com");
     const user = JSON.parse(sessionStorage.getItem('havenUser'));
 
     if (!user) {

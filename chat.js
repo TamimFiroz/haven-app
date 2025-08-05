@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const socket = io("https://haven-chat-backend.onrender.com");
     const user = JSON.parse(sessionStorage.getItem('havenUser'));
     const roomCode = sessionStorage.getItem('havenRoomCode');
+    const roomPassword = sessionStorage.getItem('havenRoomPassword');
 
     if (!user || !roomCode) {
         window.location.href = 'index.html';
         return;
     }
-
-    const socket = io("http://localhost:3001");
 
     const themeSwitcher = document.getElementById('theme-switcher');
     const doc = document.documentElement;
@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addMessage = (message) => {
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
+
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('message-bubble', message.sender === user.username ? 'sent' : 'received');
         const paragraph = document.createElement('p');
@@ -71,9 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendMessage = () => {
         const messageText = messageInput.value.trim();
         if (messageText === '') return;
-        const message = { sender: user.username, text: messageText };
+
+        const message = {
+            sender: user.username,
+            text: messageText
+        };
         addMessage(message);
         socket.emit('sendMessage', { roomCode, message });
+
         messageInput.value = '';
         messageInput.style.height = 'auto';
         clearTimeout(typingTimeout);
@@ -130,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.disconnect();
     });
 
-    // MODIFICATION: The Definitive Navigation Lock
     history.pushState(null, "", location.href);
     window.onpopstate = function () {
         history.go(1);
@@ -138,18 +143,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     socket.on('connect', () => {
-        socket.emit('enterRoom', { code: roomCode, user: user });
+        console.log(`[CONNECTED] Frontend connected. Emitting enterRoom for room: ${roomCode}`);
+        socket.emit('enterRoom', {
+            code: roomCode,
+            user: user
+        });
     });
 
     socket.on('initialRoomData', (data) => {
+        console.log('[INITIAL DATA] Received initial room data:', data);
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
+
         messageArea.innerHTML = '';
         if (data.messages && data.messages.length > 0) {
             data.messages.forEach(addMessage);
         } else if (!data.peer) {
             messageArea.innerHTML = `<div class="welcome-message" id="welcome-message"><span class="material-symbols-outlined welcome-icon">lock</span><h2 class="welcome-title">Room Created</h2><p class="welcome-description">Share the Code & Password with a friend to start chatting.</p></div>`;
         }
+
         if (data.peer) {
             peerSoultagEl.textContent = data.peer.username;
             peerActivityEl.textContent = 'Online';
@@ -160,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('peerJoined', (peer) => {
+        console.log('[PEER JOINED]', peer);
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
         peerSoultagEl.textContent = peer.username;
@@ -167,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('peerLeft', () => {
+        console.log('[PEER LEFT]');
         peerSoultagEl.textContent = "User left";
         peerActivityEl.textContent = '';
     });

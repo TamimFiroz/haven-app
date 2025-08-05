@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "https://haven-site.netlify.app",
     methods: ["GET", "POST"]
   }
 });
@@ -65,10 +65,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('enterRoom', ({ code, user }) => {
-    leaveRoom(); // Leave any previous room
+    leaveRoom();
     
     const room = rooms[code];
-    if (!room) return; // Room might have been deleted
+    if (!room) return;
 
     socket.join(code);
     socket.roomId = code;
