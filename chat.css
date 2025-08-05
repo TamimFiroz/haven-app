@@ -47,18 +47,21 @@ body {
   overflow: hidden;
 }
 
-.chat-container {
-  .message-area-wrapper { padding-bottom: 0; }
-  height: 100%;
-  background-color: var(--bg-primary);
-  border-radius: 24px;
-  border: 1px solid var(--border-color);
+.chat-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 0);
+  width: 100vw;
+  z-index: 100;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  padding: 8px 0 8px 0;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: all 0.5s ease;
-  position: relative;
+  justify-content: center;
+  /* Add a small margin to lift above keyboard on mobile */
+  margin-bottom: 8px;
 }
 
 .message-area-wrapper {
@@ -104,7 +107,7 @@ body {
   .peer-soultag, .peer-activity { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .header-actions { flex-shrink: 0; gap: 12px; }
   .exit-panel { width: 100%; border-left: none; }
-  .chat-footer { padding: 8px 0; }
+  .chat-footer { padding: 8px 0; margin-bottom: 8px; }
   .message-area-wrapper { padding-bottom: 0; }
 }
 
