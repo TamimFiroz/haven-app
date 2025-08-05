@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Mobile viewport height fix ---
+    function setVhVar() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setVhVar();
+    window.addEventListener('resize', setVhVar);
+    window.addEventListener('orientationchange', setVhVar);
+    // iOS keyboard workaround: re-apply on focus/blur
+    window.addEventListener('focusin', setVhVar);
+    window.addEventListener('focusout', setVhVar);
+
     const socket = io("https://haven-chat-backend.onrender.com");
     const user = JSON.parse(sessionStorage.getItem('havenUser'));
     const roomCode = sessionStorage.getItem('havenRoomCode');
