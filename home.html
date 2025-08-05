@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Haven</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <main class="home-container">
+        <header class="home-header">
+            <h1 class="home-title haven-text">Haven</h1>
+            <div class="theme-switcher-container">
+                <button id="theme-switcher" class="theme-switcher" title="Toggle Theme">
+                    <div class="sun-wrapper"><span class="material-symbols-outlined">light_mode</span></div>
+                    <div class="moon-wrapper"><span class="material-symbols-outlined">dark_mode</span></div>
+                </button>
+            </div>
+        </header>
+        <section class="room-manager-content">
+            <div class="tab-container">
+                <button class="tab-button active" data-view="create"><span class="tab-text">Create room</span></button>
+                <button class="tab-button" data-view="join"><span class="tab-text">Join room</span></button>
+            </div>
+            <form id="room-form" class="room-form">
+                <div class="input-container">
+                    <input type="text" id="room-code" name="code" placeholder="# Code" class="input-field" required minlength="4" maxlength="10" pattern="[A-Za-z0-9]+">
+                    <p class="error-message" id="code-error"></p>
+                </div>
+                <div class="input-container">
+                    <input type="password" id="room-password" name="password" placeholder="# Password" class="input-field" required minlength="5" maxlength="10" pattern="[0-9]+">
+                    <p class="error-message" id="password-error"></p>
+                </div>
+                <div class="room-actions">
+                    <button type="button" id="remove-button" class="action-button remove">Remove</button>
+                    <button type="submit" id="action-button" class="action-button create">
+                        <span class="button-text">Create</span>
+                        <div class="button-loader hidden"></div>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>

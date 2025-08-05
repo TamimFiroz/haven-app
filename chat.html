@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Haven</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <main class="chat-container">
+        <header class="chat-header">
+            <div class="peer-status-bar">
+                <span id="peer-soultag" class="peer-soultag"></span>
+                <span id="peer-activity" class="peer-activity"></span>
+            </div>
+            <div class="header-actions">
+                <button id="exit-button" class="exit-button">Exit</button>
+                <button id="theme-switcher" class="theme-switcher" title="Toggle Theme">
+                    <div class="sun-wrapper"><span class="material-symbols-outlined">light_mode</span></div>
+                    <div class="moon-wrapper"><span class="material-symbols-outlined">dark_mode</span></div>
+                </button>
+            </div>
+        </header>
+        <section class="message-area-wrapper">
+            <div class="message-area" id="message-area">
+                <div class="welcome-message" id="welcome-message">
+                    <span class="material-symbols-outlined welcome-icon">lock</span>
+                    <h2 class="welcome-title">Room Created</h2>
+                    <p class="welcome-description">Share the Code & Password with a friend to start chatting.</p>
+                </div>
+            </div>
+            <div class="exit-panel" id="exit-panel">
+                <div class="exit-panel-content">
+                    <h2 class="exit-title">Exit Room?</h2>
+                    <p class="exit-description">Are you sure you want to leave this room? This action cannot be undone.</p>
+                    <div class="exit-actions">
+                        <button id="cancel-exit-btn" class="exit-panel-button">Cancel</button>
+                        <button id="confirm-exit-btn" class="exit-panel-button confirm">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="chat-footer">
+            <div class="input-wrapper">
+                <div class="emoji-container">
+                    <button id="emoji-button" class="icon-button" title="Emojis"><span class="material-symbols-outlined">mood</span></button>
+                    <div id="emoji-palette" class="emoji-palette"></div>
+                </div>
+                <textarea id="message-input" class="message-input" placeholder="Type a message here..." rows="1"></textarea>
+                <button id="send-button" class="icon-button send-button" title="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
+            </div>
+        </footer>
+    </main>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

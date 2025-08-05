@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Haven</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <main class="login-card">
+        <div class="card-content">
+            <header class="card-header">
+                <h1 class="title">Welcome to <span class="haven-text">Haven</span></h1>
+                <p class="subtitle" id="subtitle-text-container">
+                    <span id="subtitle-text"></span><span class="cursor"></span>
+                </p>
+            </header>
+            <form id="login-form" class="login-form">
+                <div class="input-container">
+                    <input type="text" id="username" name="username" placeholder="Username" class="input-field" required>
+                    <p class="error-message" id="username-error"></p>
+                </div>
+                <div class="input-container">
+                    <div class="soultag-field">
+                        <span id="soultag-text" class="soultag-placeholder">Get your SoulTag</span>
+                        <span class="material-symbols-outlined shuffle-icon" id="shuffle-button" title="Generate new SoulTag">shuffle</span>
+                    </div>
+                </div>
+                <div class="info-link-container">
+                    <button type="button" id="what-is-haven-link" class="info-link">What's Haven?</button>
+                </div>
+                <button type="submit" class="submit-button" aria-label="Proceed">
+                    <span class="material-symbols-outlined">arrow_forward_ios</span>
+                </button>
+            </form>
+        </div>
+    </main>
+    <div class="popup-backdrop hidden" id="haven-popup">
+        <div class="popup-content">
+            <button class="popup-close-button" id="popup-close-btn" aria-label="Close" title="Close"><span class="material-symbols-outlined">close</span></button>
+            <h2 class="popup-title">How Haven works</h2>
+            <ul class="feature-list">
+                <li class="feature-item"><span class="material-symbols-outlined feature-icon">security</span><div class="feature-text"><h3>Get your SoulTag</h3><p>It is your temporary, anonymous ID.</p></div></li>
+                <li class="feature-item"><span class="material-symbols-outlined feature-icon">sensor_door</span><div class="feature-text"><h3>Create or Join a Room</h3><p>Create or join a private, password-protected chat room.</p></div></li>
+                <li class="feature-item"><span class="material-symbols-outlined feature-icon">delete_history</span><div class="feature-text"><h3>Chat Privately</h3><p>Once both users exit, the room and all messages are permanently deleted.</p></div></li>
+            </ul>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
