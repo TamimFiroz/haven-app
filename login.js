@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSoulTag = '';
     let isAnimatingTag = false;
 
-    const phrases = ["Private rooms.", "Always secure.", "Go private."];
+    const phrases = ["Private rooms.", "Always secure.", "Go Haven."];
     let phraseIndex = 0;
     const scrambleAnimation = (element, text, onComplete) => {
         let i = 0;
