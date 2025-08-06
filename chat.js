@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // MODIFICATION: The definitive fix for mobile keyboard layout issues
     const setVh = () => {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -7,14 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('orientationchange', setVh);
     setVh();
 
+    const socket = io("https://haven-chat-backend.onrender.com");
     const user = JSON.parse(sessionStorage.getItem('havenUser'));
     const roomCode = sessionStorage.getItem('havenRoomCode');
     if (!user || !roomCode) {
         window.location.href = 'index.html';
         return;
     }
-
-    const socket = io("https://haven-chat-backend.onrender.com");
 
     const themeSwitcher = document.getElementById('theme-switcher');
     const doc = document.documentElement;
@@ -107,12 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.onpopstate = function () { history.go(1); exitPanel.classList.add('visible'); };
 
     socket.on('connect', () => {
-        console.log(`[CONNECTED] Frontend connected. Emitting enterRoom for room: ${roomCode}`);
         socket.emit('enterRoom', { code: roomCode, user: user });
     });
 
     socket.on('initialRoomData', (data) => {
-        console.log('[INITIAL DATA] Received initial room data:', data);
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
         messageArea.innerHTML = '';
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('peerJoined', (peer) => {
-        console.log('[PEER JOINED]', peer);
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
         peerSoultagEl.textContent = peer.username;
@@ -139,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('peerLeft', () => {
-        console.log('[PEER LEFT]');
         peerSoultagEl.textContent = "User left";
         peerActivityEl.textContent = '';
     });
