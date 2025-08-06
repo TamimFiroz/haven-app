@@ -25,7 +25,14 @@ body { min-height: 100%; margin: 0; font-family: var(--font-family); background-
 .home-container { background-color: var(--bg-primary); width: 100%; max-height: 95vh; border-radius: 24px; border: 1px solid var(--border-color); padding: 32px 40px; box-sizing: border-box; animation: expand-and-fade-in 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards; transition: background-color 0.5s ease, border-color 0.5s ease; }
 .home-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
 .home-title { font-size: 2.5rem; font-weight: 700; margin: 0; }
-.haven-text { color: var(--haven-logo-color); transition: color 0.5s ease; }
+.haven-text {
+  background: linear-gradient(45deg, #f8ad00, #e13333, #3992ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  transition: color 0.5s ease;
+}
 .theme-switcher { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border-color); background-color: var(--bg-primary); cursor: pointer; padding: 0; position: relative; overflow: hidden; transition: all 0.5s ease; }
 .sun-wrapper, .moon-wrapper { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1); }
 .sun-wrapper { background-color: var(--bg-primary); color: var(--text-primary); transform: translateY(0); }

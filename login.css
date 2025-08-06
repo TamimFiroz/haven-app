@@ -15,7 +15,13 @@ body { min-height: 100%; margin: 0; font-family: var(--font-family); background-
 .card-content { width: 100%; max-width: 400px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .card-header { margin-bottom: 64px; width: 100%; }
 .title { font-size: 2.75rem; font-weight: 700; line-height: 1.2; margin: 0 0 16px 0; white-space: nowrap; }
-.haven-text { color: var(--haven-green); }
+.haven-text {
+  background: linear-gradient(45deg, #f8ad00, #e13333, #3992ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
 @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .subtitle { font-size: 1.125rem; color: var(--primary-purple); font-weight: 500; margin: 0; min-height: 27px; display: flex; justify-content: center; align-items: center; }
 .cursor { width: 2px; height: 1.25rem; background-color: var(--primary-purple); margin-left: 4px; animation: blink-cursor 1s infinite; }
