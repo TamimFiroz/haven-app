@@ -1,13 +1,14 @@
-:root {
-    --haven-green: #2a3431;
-    --primary-purple: #6366f1;
-    --background-color: #ffffff;
-    --card-background: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #6c757d;
-    --border-color: #e5e7eb;
-    --error-red: #ef4444;
-    --font-family: 'Work Sans', sans-serif;
+html {
+  /* Force dark mode by default for login page */
+  --haven-green: #2a3431;
+  --primary-purple: #6366f1;
+  --background-color: #121212;
+  --card-background: #121212;
+  --text-primary: #EAEAEA;
+  --text-secondary: #888888;
+  --border-color: #2C2C2C;
+  --error-red: #f43f5e;
+  --font-family: 'Work Sans', sans-serif;
 }
 html { height: 100%; }
 body { min-height: 100%; margin: 0; font-family: var(--font-family); background-color: var(--background-color); color: var(--text-primary); display: flex; justify-content: center; align-items: center; overflow: hidden; }
