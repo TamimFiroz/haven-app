@@ -8,6 +8,64 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('orientationchange', setVh);
     setVh();
 
+    // ✅ ADDED: Chrome keyboard overlap fix - works with your existing --vh system
+    function initChromeKeyboardFix() {
+        const chatFooter = document.querySelector('.chat-footer');
+        const messageInput = document.getElementById('message-input');
+        const messageArea = document.getElementById('message-area');
+
+        // Only apply fix for Chrome on Android
+        if (window.visualViewport && /Chrome/.test(navigator.userAgent) && /Android/.test(navigator.userAgent)) {
+            const viewport = window.visualViewport;
+
+            function adjustForKeyboard() {
+                const keyboardHeight = window.innerHeight - viewport.height;
+
+                if (keyboardHeight > 50) { // Keyboard is open (50px threshold)
+                    // Lift footer above keyboard
+                    chatFooter.style.transform = `translateY(-${keyboardHeight}px)`;
+
+                    // Adjust message area to prevent content cutoff
+                    if (messageArea) {
+                        messageArea.style.paddingBottom = `${keyboardHeight + 80}px`;
+                        // Auto-scroll to bottom when keyboard appears
+                        setTimeout(() => {
+                            messageArea.scrollTop = messageArea.scrollHeight;
+                        }, 100);
+                    }
+                } else {
+                    // Keyboard is closed - reset positions
+                    chatFooter.style.transform = '';
+                    if (messageArea) {
+                        messageArea.style.paddingBottom = '';
+                    }
+                }
+            }
+
+            viewport.addEventListener('resize', adjustForKeyboard);
+            viewport.addEventListener('scroll', adjustForKeyboard);
+        }
+
+        // Enhanced input focus for better visibility
+        messageInput.addEventListener('focus', function() {
+            setTimeout(() => {
+                // Ensure input is visible
+                messageInput.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+
+                // Auto-scroll chat to bottom
+                if (messageArea) {
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                }
+            }, 200);
+        });
+    }
+
+    // Initialize keyboard fix
+    initChromeKeyboardFix();
+
     const socket = io("https://haven-chat-backend.onrender.com");
     const user = JSON.parse(sessionStorage.getItem('havenUser'));
     const roomCode = sessionStorage.getItem('havenRoomCode');
@@ -15,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
         return;
     }
+
 
     const themeSwitcher = document.getElementById('theme-switcher');
     const doc = document.documentElement;
@@ -31,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const peerActivityEl = document.getElementById('peer-activity');
     let typingTimeout;
 
+
     const applyTheme = (theme) => {
         doc.classList.remove('light', 'dark');
         doc.classList.add(theme);
@@ -39,10 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
 
+
     themeSwitcher.addEventListener('click', () => {
         const newTheme = doc.classList.contains('dark') ? 'light' : 'dark';
         applyTheme(newTheme);
     });
+
 
     const initialHeight = messageInput.clientHeight;
     messageInput.addEventListener('input', () => {
@@ -58,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     const addMessage = (message) => {
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
@@ -69,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageArea.appendChild(messageBubble);
         messageArea.scrollTop = messageArea.scrollHeight;
     };
+
 
     const sendMessage = () => {
         const messageText = messageInput.value.trim();
@@ -82,10 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('stopTyping', { roomCode });
     };
 
+
     sendButton.addEventListener('click', sendMessage);
     messageInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
+
 
     const topEmojis = ['😂', '❤️', '😭', '👍', '😊', '🙏', '😍', '🔥', '🤔', '🥰', '🤣', '🎉', '💯', '✨', '👀', '💀', '😎', '😜', '😉', '👌', '😏', '😮', '💔', '😴', '🙄', '🙌', '🤷', '🤗', '🤢', '🥺', '✅', '➡️', '👇', '🤪', '👏', '🤝', '👋', '🤦', '🤞', '😅', '😇', '🤫', '😎', '😢', '🤯', '🥳', '👇', '💦', '🤔', '🤣'];
     topEmojis.forEach(emoji => {
@@ -97,18 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
     emojiPalette.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') { messageInput.value += e.target.textContent; messageInput.focus(); } });
     document.addEventListener('click', (e) => { if (!emojiPalette.contains(e.target) && !emojiButton.contains(e.target)) { emojiPalette.classList.remove('visible'); } });
 
+
     exitButton.addEventListener('click', (e) => { e.stopPropagation(); exitPanel.classList.add('visible'); });
     cancelExitBtn.addEventListener('click', () => { exitPanel.classList.remove('visible'); });
     confirmExitBtn.addEventListener('click', () => { window.location.href = 'home.html'; });
     document.addEventListener('click', (e) => { if (!exitPanel.contains(e.target) && !exitButton.contains(e.target)) { exitPanel.classList.remove('visible'); } });
 
+
     window.addEventListener('beforeunload', () => { socket.disconnect(); });
     history.pushState(null, "", location.href);
     window.onpopstate = function () { history.go(1); exitPanel.classList.add('visible'); };
 
+
     socket.on('connect', () => {
         socket.emit('enterRoom', { code: roomCode, user: user });
     });
+
 
     socket.on('initialRoomData', (data) => {
         const welcomeEl = document.getElementById('welcome-message');
@@ -128,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     socket.on('peerJoined', (peer) => {
         const welcomeEl = document.getElementById('welcome-message');
         if (welcomeEl) welcomeEl.remove();
@@ -135,10 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
         peerActivityEl.textContent = 'Online';
     });
 
+
     socket.on('peerLeft', () => {
         peerSoultagEl.textContent = "User left";
         peerActivityEl.textContent = '';
     });
+
 
     socket.on('receiveMessage', (message) => { addMessage(message); });
     socket.on('peerTyping', () => { peerActivityEl.textContent = 'Typing...'; });
